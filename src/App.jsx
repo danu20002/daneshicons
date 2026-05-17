@@ -103,15 +103,15 @@ const LazyIcon = ({ icon, renderStyle, strokeWidth, globalSize, selectedColor })
             if (camelKey === 'class') camelKey = 'className';
             reactAttrs[camelKey] = v;
           }
-          
+
           if (renderStyle === 'solid') {
-             reactAttrs.fill = 'currentColor';
+            reactAttrs.fill = 'currentColor';
           } else {
-             reactAttrs.fill = 'none';
-             reactAttrs.stroke = 'currentColor';
-             reactAttrs.strokeWidth = strokeWidth;
+            reactAttrs.fill = 'none';
+            reactAttrs.stroke = 'currentColor';
+            reactAttrs.strokeWidth = strokeWidth;
           }
-          
+
           return <Tag key={idx} {...reactAttrs} />;
         })
       )}
@@ -682,6 +682,9 @@ export default ${targetIcon.name};`;
         {/* Global Statistics & Upload trigger */}
         <div className="flex items-center gap-4">
           <div className="hidden lg:flex bg-slate-950/80 border border-white/[0.05] rounded-xl p-0.5 text-[10px] font-bold">
+            <div className="px-3 py-1 text-slate-400 border-r border-white/10 flex items-center gap-1">
+              <a href="https://github.com/danu20002/daneshicons">Github</a>
+            </div>
             <div className="px-3 py-1 text-slate-400 border-r border-white/10 flex items-center gap-1">
               STANDARD <span className="text-purple-400 font-mono">{stats.standard}</span>
             </div>
@@ -1429,9 +1432,9 @@ export default ${targetIcon.name};`;
             <div className="p-3 max-h-32 overflow-y-auto font-mono text-[10px] space-y-1 bg-slate-950">
               {terminalLogs.map((log, index) => (
                 <div key={index} className={`flex gap-1.5 ${log.type === 'error' ? 'text-rose-400' :
-                    log.type === 'success' ? 'text-emerald-400' :
-                      log.type === 'hint' ? 'text-cyan-400' :
-                        log.type === 'user' ? 'text-slate-300' : 'text-slate-500'
+                  log.type === 'success' ? 'text-emerald-400' :
+                    log.type === 'hint' ? 'text-cyan-400' :
+                      log.type === 'user' ? 'text-slate-300' : 'text-slate-500'
                   }`}>
                   <span className="select-none text-slate-600">[{new Date().toLocaleTimeString()}]</span>
                   <span>{log.text}</span>
