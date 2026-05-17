@@ -1,0 +1,28 @@
+import React from 'react';
+
+export const iconData = {
+  id: "Dice3",
+  name: "Dice3",
+  category: "D",
+  nodes: [["rect",{"width":"18","height":"18","x":"3","y":"3","rx":"2","ry":"2"}],["path",{"d":"M16 8h.01"}],["path",{"d":"M12 12h.01"}],["path",{"d":"M8 16h.01"}]]
+};
+
+export const Dice3 = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24"
+      className={className}
+      color={color}
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+      <path d="M16 8h.01" />
+      <path d="M12 12h.01" />
+      <path d="M8 16h.01" />
+    </svg>
+  );
+};
+
+export default Dice3;

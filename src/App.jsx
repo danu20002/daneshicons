@@ -49,7 +49,7 @@ const THEME_COLORS = [
   { name: 'White', hex: '#ffffff', glow: 'shadow-[0_0_15px_rgba(255,255,255,0.3)]' },
 ];
 
-const CATEGORIES = ['All', 'General', 'Commerce', 'System', 'Tech', 'Nav', 'Custom'];
+const CATEGORIES = ['All', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), 'Custom'];
 
 const iconModules = import.meta.glob('./icons/**/*.jsx');
 const LOADED_ICONS = Object.keys(iconModules).map(filePath => {
@@ -61,21 +61,21 @@ const LOADED_ICONS = Object.keys(iconModules).map(filePath => {
     name,
     category,
     type: 'standard',
-    paths: [], // will be loaded lazily
+    nodes: [], // will be loaded lazily
     importFn: iconModules[filePath]
   };
 });
 
 const LazyIcon = ({ icon, renderStyle, strokeWidth, globalSize, selectedColor }) => {
-  const [paths, setPaths] = useState(icon?.paths || []);
+  const [nodes, setNodes] = useState(icon?.nodes || []);
 
   useEffect(() => {
     let mounted = true;
-    if (icon && paths.length === 0 && icon.importFn) {
+    if (icon && nodes.length === 0 && icon.importFn) {
       icon.importFn().then(mod => {
         if (mounted && mod.iconData) {
-          setPaths(mod.iconData.paths);
-          icon.paths = mod.iconData.paths;
+          setNodes(mod.iconData.nodes || []);
+          icon.nodes = mod.iconData.nodes || [];
         }
       });
     }
@@ -93,20 +93,27 @@ const LazyIcon = ({ icon, renderStyle, strokeWidth, globalSize, selectedColor })
       style={{ color: selectedColor.hex }}
       className="transition-all"
     >
-      {paths.length === 0 ? (
+      {nodes.length === 0 ? (
         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="3 3" fill="none" className="animate-spin opacity-20" />
       ) : (
-        paths.map((p, idx) => (
-          <path
-            key={idx}
-            d={p}
-            fill={renderStyle === 'solid' ? 'currentColor' : 'none'}
-            stroke={renderStyle === 'outline' ? 'currentColor' : 'none'}
-            strokeWidth={renderStyle === 'outline' ? strokeWidth : undefined}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ))
+        nodes.map(([Tag, attrs], idx) => {
+          const reactAttrs = {};
+          for (const [k, v] of Object.entries(attrs)) {
+            let camelKey = k.replace(/-([a-z])/g, g => g[1].toUpperCase());
+            if (camelKey === 'class') camelKey = 'className';
+            reactAttrs[camelKey] = v;
+          }
+          
+          if (renderStyle === 'solid') {
+             reactAttrs.fill = 'currentColor';
+          } else {
+             reactAttrs.fill = 'none';
+             reactAttrs.stroke = 'currentColor';
+             reactAttrs.strokeWidth = strokeWidth;
+          }
+          
+          return <Tag key={idx} {...reactAttrs} />;
+        })
       )}
     </svg>
   );
@@ -116,7 +123,7 @@ export default function App() {
   const [icons, setIcons] = useState(LOADED_ICONS);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
-  const [visibleCount, setVisibleCount] = useState(100);
+  const [visibleCount, setVisibleCount] = useState(200);
 
   // Customization States
   const [globalSize, setGlobalSize] = useState(24);
@@ -255,7 +262,7 @@ export default function App() {
   }, [icons, searchQuery, activeCategory]);
 
   useEffect(() => {
-    setVisibleCount(100);
+    setVisibleCount(200);
   }, [searchQuery, activeCategory]);
 
   const visibleIcons = useMemo(() => {
@@ -269,35 +276,41 @@ export default function App() {
   }, [icons]);
 
   const generatedCodes = useMemo(() => {
-    if (!selectedIcon || !selectedIcon.paths || selectedIcon.paths.length === 0) return { svg: '', react: '', vue: '', tailwind: '', css: '' };
+    if (!selectedIcon || !selectedIcon.nodes || selectedIcon.nodes.length === 0) return { svg: '', react: '', vue: '', tailwind: '', css: '' };
 
     const colorValue = selectedColor.hex;
-    const pathsMarkup = selectedIcon.paths.map(p => {
+    const pathsMarkup = selectedIcon.nodes.map(([tag, attrs]) => {
+      const props = Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ');
       if (renderStyle === 'solid') {
-        return `<path d="${p}" fill="${colorValue}" />`;
+        return `<${tag} ${props} fill="${colorValue}" />`;
       } else {
-        return `<path d="${p}" stroke="${colorValue}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" fill="none" />`;
+        return `<${tag} ${props} stroke="${colorValue}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" fill="none" />`;
       }
     }).join('\n  ');
 
     const cleanSvgCode = `<svg xmlns="http://www.w3.org/2000/svg" width="${globalSize}" height="${globalSize}" viewBox="0 0 24 24">\n  ${pathsMarkup}\n</svg>`;
 
     // Independent React Single Component File Module Code
-    const reactPathsMarkup = selectedIcon.paths.map(p => {
+    const reactPathsMarkup = selectedIcon.nodes.map(([tag, attrs]) => {
+      const props = Object.entries(attrs).map(([k, v]) => {
+        const reactKey = k.replace(/-([a-z])/g, g => g[1].toUpperCase());
+        return `${reactKey}="${v}"`;
+      }).join(' ');
       if (renderStyle === 'solid') {
-        return `      <path d="${p}" fill="${colorValue}" />`;
+        return `      <${tag} ${props} fill="${colorValue}" />`;
       } else {
-        return `      <path d="${p}" stroke="${colorValue}" strokeWidth={${strokeWidth}} strokeLinecap="round" strokeLinejoin="round" fill="none" />`;
+        return `      <${tag} ${props} stroke="${colorValue}" strokeWidth={${strokeWidth}} strokeLinecap="round" strokeLinejoin="round" fill="none" />`;
       }
     }).join('\n');
     const reactComponentCode = `import React from 'react';\n\nexport const ${selectedIcon.name} = ({ size = ${globalSize}, className = "" }) => {\n  return (\n    <svg \n      xmlns="http://www.w3.org/2000/svg" \n      width={size} \n      height={size} \n      viewBox="0 0 24 24"\n      className={className}\n    >\n${reactPathsMarkup}\n    </svg>\n  );\n};\n\nexport default ${selectedIcon.name};`;
 
     // Vue Template Single File Component
-    const vuePathsMarkup = selectedIcon.paths.map(p => {
+    const vuePathsMarkup = selectedIcon.nodes.map(([tag, attrs]) => {
+      const props = Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ');
       if (renderStyle === 'solid') {
-        return `    <path d="${p}" fill="${colorValue}" />`;
+        return `    <${tag} ${props} fill="${colorValue}" />`;
       } else {
-        return `    <path d="${p}" stroke="${colorValue}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" fill="none" />`;
+        return `    <${tag} ${props} stroke="${colorValue}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" fill="none" />`;
       }
     }).join('\n');
     const vueComponentCode = `<template>\n  <svg\n    xmlns="http://www.w3.org/2000/svg"\n    :width="size"\n    :height="size"\n    viewBox="0 0 24 24"\n    :class="className"\n  >\n${vuePathsMarkup}\n  </svg>\n</template>\n\n<script setup>\ndefineProps({\n  size: { type: [Number, String], default: ${globalSize} },\n  className: { type: String, default: '' }\n});\n</script>`;
@@ -374,11 +387,15 @@ import { Search, Shield } from 'danesh-icons';
       const targetIcon = icons.find(i => i.name === name && i.category === category);
       if (targetIcon) {
         const colorValue = selectedColor.hex;
-        const reactPathsMarkup = targetIcon.paths.map(p => {
+        const reactPathsMarkup = targetIcon.nodes.map(([tag, attrs]) => {
+          const props = Object.entries(attrs).map(([k, v]) => {
+            const reactKey = k.replace(/-([a-z])/g, g => g[1].toUpperCase());
+            return `${reactKey}="${v}"`;
+          }).join(' ');
           if (renderStyle === 'solid') {
-            return `      <path d="${p}" fill="${colorValue}" />`;
+            return `      <${tag} ${props} fill="${colorValue}" />`;
           } else {
-            return `      <path d="${p}" stroke="${colorValue}" strokeWidth={${strokeWidth}} strokeLinecap="round" strokeLinejoin="round" fill="none" />`;
+            return `      <${tag} ${props} stroke="${colorValue}" strokeWidth={${strokeWidth}} strokeLinecap="round" strokeLinejoin="round" fill="none" />`;
           }
         }).join('\n');
 
@@ -411,10 +428,11 @@ export default ${targetIcon.name};`;
   const handleUpdateSelectedPaths = (newVal) => {
     if (!selectedIcon) return;
     const pathsArray = newVal.split('\n').map(p => p.trim()).filter(Boolean);
+    const newNodes = pathsArray.map(d => ['path', { d }]);
 
     setIcons(prev => prev.map(icon => {
       if (icon.id === selectedIcon.id) {
-        const updated = { ...icon, paths: pathsArray };
+        const updated = { ...icon, nodes: newNodes };
         setSelectedIcon(updated);
         return updated;
       }
@@ -1047,7 +1065,7 @@ export default ${targetIcon.name};`;
                 <div className="space-y-1.5">
                   <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Select Icons to Add to Bundle</span>
                   <div className="grid grid-cols-4 gap-1 max-h-40 overflow-y-auto p-1 bg-slate-950 rounded-xl border border-white/5">
-                    {icons.map(icon => {
+                    {visibleIcons.map(icon => {
                       const isIncluded = bundledIcons.includes(icon.id);
                       return (
                         <button
@@ -1321,10 +1339,9 @@ export default ${targetIcon.name};`;
 
                                         {isExpanded && hasIcons && (
                                           <div className="pl-3 border-l border-white/5 ml-1.5 space-y-0.5">
-                                            {iconsByCategory[cat].map(icon => {
+                                            {iconsByCategory[cat].slice(0, 100).map(icon => {
                                               const fileKey = `src/icons/${cat}/${icon.name}.jsx`;
                                               const isFileSelected = selectedVirtualFile === fileKey;
-
                                               return (
                                                 <button
                                                   key={icon.id}
@@ -1550,7 +1567,7 @@ export default ${targetIcon.name};`;
                   </div>
                   <textarea
                     rows="2"
-                    value={selectedIcon.paths.join('\n')}
+                    value={(selectedIcon.nodes || []).map(([tag, attrs]) => attrs.d || '').join('\n')}
                     onChange={(e) => handleUpdateSelectedPaths(e.target.value)}
                     className="w-full bg-slate-950 text-[10px] font-mono p-2.5 rounded-xl border border-white/[0.05] text-cyan-200 focus:outline-none focus:border-purple-500/50 leading-relaxed"
                     placeholder="Enter d-attribute vector per line..."

@@ -1,0 +1,28 @@
+import React from 'react';
+
+export const iconData = {
+  id: "Scaling",
+  name: "Scaling",
+  category: "S",
+  nodes: [["path",{"d":"M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"}],["path",{"d":"M14 15H9v-5"}],["path",{"d":"M16 3h5v5"}],["path",{"d":"M21 3 9 15"}]]
+};
+
+export const Scaling = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24"
+      className={className}
+      color={color}
+    >
+      <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M14 15H9v-5" />
+      <path d="M16 3h5v5" />
+      <path d="M21 3 9 15" />
+    </svg>
+  );
+};
+
+export default Scaling;

@@ -1,0 +1,29 @@
+import React from 'react';
+
+export const iconData = {
+  id: "PrinterX",
+  name: "PrinterX",
+  category: "P",
+  nodes: [["path",{"d":"M12.531 22H7a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h6.377"}],["path",{"d":"m16.5 16.5 5 5"}],["path",{"d":"m16.5 21.5 5-5"}],["path",{"d":"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1.5"}],["path",{"d":"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"}]]
+};
+
+export const PrinterX = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24"
+      className={className}
+      color={color}
+    >
+      <path d="M12.531 22H7a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h6.377" />
+      <path d="m16.5 16.5 5 5" />
+      <path d="m16.5 21.5 5-5" />
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1.5" />
+      <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" />
+    </svg>
+  );
+};
+
+export default PrinterX;
