@@ -94,7 +94,7 @@ const indexContent = icons.map(([name]) => {
   let category = firstLetter;
   if (!/[A-Z]/.test(category)) category = 'Other';
   return `export { default as ${name} } from './icons/${category}/${name}.jsx';`;
-}).join('\\n');
+}).join('\n');
 
 fs.writeFileSync(path.join(__dirname, 'src', 'index.js'), indexContent);
 
