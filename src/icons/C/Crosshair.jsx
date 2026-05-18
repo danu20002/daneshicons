@@ -7,23 +7,30 @@ export const iconData = {
   nodes: [["circle",{"cx":"12","cy":"12","r":"10"}],["line",{"x1":"22","x2":"18","y1":"12","y2":"12"}],["line",{"x1":"6","x2":"2","y1":"12","y2":"12"}],["line",{"x1":"12","x2":"12","y1":"6","y2":"2"}],["line",{"x1":"12","x2":"12","y1":"22","y2":"18"}]]
 };
 
-export const Crosshair = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const Crosshair = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <circle cx="12" cy="12" r="10" />
       <line x1="22" x2="18" y1="12" y2="12" />
       <line x1="6" x2="2" y1="12" y2="12" />
       <line x1="12" x2="12" y1="6" y2="2" />
       <line x1="12" x2="12" y1="22" y2="18" />
+      {children}
     </svg>
   );
-};
+});
 
 export default Crosshair;

@@ -7,15 +7,21 @@ export const iconData = {
   nodes: [["path",{"d":"m15 15 6 6"}],["path",{"d":"m15 9 6-6"}],["path",{"d":"M21 16v5h-5"}],["path",{"d":"M21 8V3h-5"}],["path",{"d":"M3 16v5h5"}],["path",{"d":"m3 21 6-6"}],["path",{"d":"M3 8V3h5"}],["path",{"d":"M9 9 3 3"}]]
 };
 
-export const Expand = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const Expand = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="m15 15 6 6" />
       <path d="m15 9 6-6" />
@@ -25,8 +31,9 @@ export const Expand = ({ size = 24, className = "", color = "currentColor", rend
       <path d="m3 21 6-6" />
       <path d="M3 8V3h5" />
       <path d="M9 9 3 3" />
+      {children}
     </svg>
   );
-};
+});
 
 export default Expand;

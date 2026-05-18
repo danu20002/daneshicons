@@ -7,15 +7,21 @@ export const iconData = {
   nodes: [["circle",{"cx":"6","cy":"6","r":"3"}],["path",{"d":"M6 9v12"}],["path",{"d":"m21 3-6 6"}],["path",{"d":"m21 9-6-6"}],["path",{"d":"M18 11.5V15"}],["circle",{"cx":"18","cy":"18","r":"3"}]]
 };
 
-export const GitPullRequestClosed = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const GitPullRequestClosed = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <circle cx="6" cy="6" r="3" />
       <path d="M6 9v12" />
@@ -23,8 +29,9 @@ export const GitPullRequestClosed = ({ size = 24, className = "", color = "curre
       <path d="m21 9-6-6" />
       <path d="M18 11.5V15" />
       <circle cx="18" cy="18" r="3" />
+      {children}
     </svg>
   );
-};
+});
 
 export default GitPullRequestClosed;

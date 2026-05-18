@@ -7,15 +7,21 @@ export const iconData = {
   nodes: [["path",{"d":"M16 5H3"}],["path",{"d":"M16 12H3"}],["path",{"d":"M16 19H3"}],["path",{"d":"M21 5h.01"}],["path",{"d":"M21 12h.01"}],["path",{"d":"M21 19h.01"}]]
 };
 
-export const TableOfContents = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const TableOfContents = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="M16 5H3" />
       <path d="M16 12H3" />
@@ -23,8 +29,9 @@ export const TableOfContents = ({ size = 24, className = "", color = "currentCol
       <path d="M21 5h.01" />
       <path d="M21 12h.01" />
       <path d="M21 19h.01" />
+      {children}
     </svg>
   );
-};
+});
 
 export default TableOfContents;

@@ -7,15 +7,21 @@ export const iconData = {
   nodes: [["path",{"d":"M3 7V5c0-1.1.9-2 2-2h2"}],["path",{"d":"M17 3h2c1.1 0 2 .9 2 2v2"}],["path",{"d":"M21 17v2c0 1.1-.9 2-2 2h-2"}],["path",{"d":"M7 21H5c-1.1 0-2-.9-2-2v-2"}],["rect",{"width":"7","height":"5","x":"7","y":"7","rx":"1"}],["rect",{"width":"7","height":"5","x":"10","y":"12","rx":"1"}]]
 };
 
-export const Group = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const Group = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="M3 7V5c0-1.1.9-2 2-2h2" />
       <path d="M17 3h2c1.1 0 2 .9 2 2v2" />
@@ -23,8 +29,9 @@ export const Group = ({ size = 24, className = "", color = "currentColor", rende
       <path d="M7 21H5c-1.1 0-2-.9-2-2v-2" />
       <rect width="7" height="5" x="7" y="7" rx="1" />
       <rect width="7" height="5" x="10" y="12" rx="1" />
+      {children}
     </svg>
   );
-};
+});
 
 export default Group;

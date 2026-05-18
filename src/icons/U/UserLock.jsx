@@ -7,22 +7,29 @@ export const iconData = {
   nodes: [["path",{"d":"M19 16v-2a2 2 0 0 0-4 0v2"}],["path",{"d":"M9.5 15H7a4 4 0 0 0-4 4v2"}],["circle",{"cx":"10","cy":"7","r":"4"}],["rect",{"x":"13","y":"16","width":"8","height":"5","rx":".899"}]]
 };
 
-export const UserLock = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const UserLock = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="M19 16v-2a2 2 0 0 0-4 0v2" />
       <path d="M9.5 15H7a4 4 0 0 0-4 4v2" />
       <circle cx="10" cy="7" r="4" />
       <rect x="13" y="16" width="8" height="5" rx=".899" />
+      {children}
     </svg>
   );
-};
+});
 
 export default UserLock;

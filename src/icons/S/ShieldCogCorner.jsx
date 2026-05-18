@@ -7,15 +7,21 @@ export const iconData = {
   nodes: [["path",{"d":"M11 22c-3.806-1.45-7-3.966-7-9V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1v4"}],["path",{"d":"M14.923 16.547 14 16.164"}],["path",{"d":"m14.923 18.843-.923.383"}],["path",{"d":"M16.547 14.923 16.164 14"}],["path",{"d":"m16.547 20.467-.383.924"}],["path",{"d":"m18.843 14.923.383-.923"}],["path",{"d":"m19.225 21.391-.382-.924"}],["path",{"d":"m20.467 16.547.923-.383"}],["path",{"d":"m20.467 18.843.923.383"}],["circle",{"cx":"17.695","cy":"17.695","r":"3"}]]
 };
 
-export const ShieldCogCorner = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const ShieldCogCorner = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="M11 22c-3.806-1.45-7-3.966-7-9V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1v4" />
       <path d="M14.923 16.547 14 16.164" />
@@ -27,8 +33,9 @@ export const ShieldCogCorner = ({ size = 24, className = "", color = "currentCol
       <path d="m20.467 16.547.923-.383" />
       <path d="m20.467 18.843.923.383" />
       <circle cx="17.695" cy="17.695" r="3" />
+      {children}
     </svg>
   );
-};
+});
 
 export default ShieldCogCorner;

@@ -7,20 +7,27 @@ export const iconData = {
   nodes: [["circle",{"cx":"12","cy":"12","r":"10"}],["path",{"d":"M12 18a6 6 0 0 0 0-12v12z"}]]
 };
 
-export const Contrast = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const Contrast = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <circle cx="12" cy="12" r="10" />
       <path d="M12 18a6 6 0 0 0 0-12v12z" />
+      {children}
     </svg>
   );
-};
+});
 
 export default Contrast;

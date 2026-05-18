@@ -7,15 +7,21 @@ export const iconData = {
   nodes: [["circle",{"cx":"12","cy":"12","r":"10"}],["path",{"d":"m4.93 4.93 4.24 4.24"}],["path",{"d":"m14.83 9.17 4.24-4.24"}],["path",{"d":"m14.83 14.83 4.24 4.24"}],["path",{"d":"m9.17 14.83-4.24 4.24"}],["circle",{"cx":"12","cy":"12","r":"4"}]]
 };
 
-export const LifeBuoy = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const LifeBuoy = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <circle cx="12" cy="12" r="10" />
       <path d="m4.93 4.93 4.24 4.24" />
@@ -23,8 +29,9 @@ export const LifeBuoy = ({ size = 24, className = "", color = "currentColor", re
       <path d="m14.83 14.83 4.24 4.24" />
       <path d="m9.17 14.83-4.24 4.24" />
       <circle cx="12" cy="12" r="4" />
+      {children}
     </svg>
   );
-};
+});
 
 export default LifeBuoy;

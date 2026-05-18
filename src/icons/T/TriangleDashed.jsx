@@ -7,15 +7,21 @@ export const iconData = {
   nodes: [["path",{"d":"M10.17 4.193a2 2 0 0 1 3.666.013"}],["path",{"d":"M14 21h2"}],["path",{"d":"m15.874 7.743 1 1.732"}],["path",{"d":"m18.849 12.952 1 1.732"}],["path",{"d":"M21.824 18.18a2 2 0 0 1-1.835 2.824"}],["path",{"d":"M4.024 21a2 2 0 0 1-1.839-2.839"}],["path",{"d":"m5.136 12.952-1 1.732"}],["path",{"d":"M8 21h2"}],["path",{"d":"m8.102 7.743-1 1.732"}]]
 };
 
-export const TriangleDashed = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const TriangleDashed = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="M10.17 4.193a2 2 0 0 1 3.666.013" />
       <path d="M14 21h2" />
@@ -26,8 +32,9 @@ export const TriangleDashed = ({ size = 24, className = "", color = "currentColo
       <path d="m5.136 12.952-1 1.732" />
       <path d="M8 21h2" />
       <path d="m8.102 7.743-1 1.732" />
+      {children}
     </svg>
   );
-};
+});
 
 export default TriangleDashed;

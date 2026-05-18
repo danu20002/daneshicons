@@ -7,22 +7,29 @@ export const iconData = {
   nodes: [["path",{"d":"M16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"}],["path",{"d":"m2 2 20 20"}],["path",{"d":"M4 22V4"}],["path",{"d":"M7.656 2H8c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10.347"}]]
 };
 
-export const FlagOff = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const FlagOff = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="M16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528" />
       <path d="m2 2 20 20" />
       <path d="M4 22V4" />
       <path d="M7.656 2H8c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10.347" />
+      {children}
     </svg>
   );
-};
+});
 
 export default FlagOff;

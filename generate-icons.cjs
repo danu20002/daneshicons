@@ -11,26 +11,33 @@ if (match) {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     
     // We create the actual JSX paths just for completeness, using the first path setup
-    const paths = icon.paths.map(p => `      <path d="${p}" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />`).join('\n');
+    const paths = icon.paths.map(p => `      <path d="${p}" />`).join('\n');
     
     const fileContent = `import React from 'react';
 
 export const iconData = ${JSON.stringify(icon, null, 2)};
 
-export const ${icon.name} = ({ size = 24, className = "", color = "currentColor" }) => {
+export const ${icon.name} = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
 ${paths}
+      {children}
     </svg>
   );
-};
+});
 
 export default ${icon.name};
 `;

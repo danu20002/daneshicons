@@ -36,7 +36,8 @@ import {
   CheckSquare,
   Folder,
   FolderOpen,
-  ChevronDown
+  ChevronDown,
+  BookOpenText
 } from 'lucide-react';
 
 const THEME_COLORS = [
@@ -281,14 +282,10 @@ export default function App() {
     const colorValue = selectedColor.hex;
     const pathsMarkup = selectedIcon.nodes.map(([tag, attrs]) => {
       const props = Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ');
-      if (renderStyle === 'solid') {
-        return `<${tag} ${props} fill="${colorValue}" />`;
-      } else {
-        return `<${tag} ${props} stroke="${colorValue}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" fill="none" />`;
-      }
+      return `<${tag} ${props} />`;
     }).join('\n  ');
 
-    const cleanSvgCode = `<svg xmlns="http://www.w3.org/2000/svg" width="${globalSize}" height="${globalSize}" viewBox="0 0 24 24">\n  ${pathsMarkup}\n</svg>`;
+    const cleanSvgCode = `<svg xmlns="http://www.w3.org/2000/svg" width="${globalSize}" height="${globalSize}" viewBox="0 0 24 24" fill="none" stroke="${colorValue}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">\n  ${pathsMarkup}\n</svg>`;
 
     // Independent React Single Component File Module Code
     const reactPathsMarkup = selectedIcon.nodes.map(([tag, attrs]) => {
@@ -296,27 +293,19 @@ export default function App() {
         const reactKey = k.replace(/-([a-z])/g, g => g[1].toUpperCase());
         return `${reactKey}="${v}"`;
       }).join(' ');
-      if (renderStyle === 'solid') {
-        return `      <${tag} ${props} fill="${colorValue}" />`;
-      } else {
-        return `      <${tag} ${props} stroke="${colorValue}" strokeWidth={${strokeWidth}} strokeLinecap="round" strokeLinejoin="round" fill="none" />`;
-      }
+      return `      <${tag} ${props} />`;
     }).join('\n');
-    const reactComponentCode = `import React from 'react';\n\nexport const ${selectedIcon.name} = ({ size = ${globalSize}, className = "" }) => {\n  return (\n    <svg \n      xmlns="http://www.w3.org/2000/svg" \n      width={size} \n      height={size} \n      viewBox="0 0 24 24"\n      className={className}\n    >\n${reactPathsMarkup}\n    </svg>\n  );\n};\n\nexport default ${selectedIcon.name};`;
+    const reactComponentCode = `import React from 'react';\n\nexport const ${selectedIcon.name} = React.forwardRef(({ size = ${globalSize}, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {\n  return (\n    <svg\n      ref={ref}\n      xmlns="http://www.w3.org/2000/svg"\n      width={size}\n      height={size}\n      viewBox="0 0 24 24"\n      fill="none"\n      stroke={color}\n      strokeWidth={strokeWidth}\n      strokeLinecap="round"\n      strokeLinejoin="round"\n      className={className}\n      {...rest}\n    >\n${reactPathsMarkup}\n      {children}\n    </svg>\n  );\n});\n\nexport default ${selectedIcon.name};`;
 
     // Vue Template Single File Component
     const vuePathsMarkup = selectedIcon.nodes.map(([tag, attrs]) => {
       const props = Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ');
-      if (renderStyle === 'solid') {
-        return `    <${tag} ${props} fill="${colorValue}" />`;
-      } else {
-        return `    <${tag} ${props} stroke="${colorValue}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" fill="none" />`;
-      }
+      return `    <${tag} ${props} />`;
     }).join('\n');
-    const vueComponentCode = `<template>\n  <svg\n    xmlns="http://www.w3.org/2000/svg"\n    :width="size"\n    :height="size"\n    viewBox="0 0 24 24"\n    :class="className"\n  >\n${vuePathsMarkup}\n  </svg>\n</template>\n\n<script setup>\ndefineProps({\n  size: { type: [Number, String], default: ${globalSize} },\n  className: { type: String, default: '' }\n});\n</script>`;
+    const vueComponentCode = `<template>\n  <svg\n    xmlns="http://www.w3.org/2000/svg"\n    :width="size"\n    :height="size"\n    viewBox="0 0 24 24"\n    fill="none"\n    :stroke="color"\n    :stroke-width="strokeWidth"\n    stroke-linecap="round"\n    stroke-linejoin="round"\n    :class="className"\n  >\n${vuePathsMarkup}\n  </svg>\n</template>\n\n<script setup>\ndefineProps({\n  size: { type: [Number, String], default: ${globalSize} },\n  color: { type: String, default: 'currentColor' },\n  strokeWidth: { type: [Number, String], default: 2 },\n  className: { type: String, default: '' }\n});\n</script>`;
 
     // Modern Tailwind Inline Code
-    const tailwindHtmlMarkup = `<div class="p-2 inline-flex items-center justify-center rounded-lg bg-slate-900">\n  <svg \n    class="w-[${globalSize}px] h-[${globalSize}px] text-[${colorValue}]" \n    xmlns="http://www.w3.org/2000/svg" \n    viewBox="0 0 24 24"\n  >\n    ${pathsMarkup.replace(new RegExp(colorValue, 'g'), 'currentColor')}\n  </svg>\n</div>`;
+    const tailwindHtmlMarkup = `<div class="p-2 inline-flex items-center justify-center rounded-lg bg-slate-900">\n  <svg \n    class="w-[${globalSize}px] h-[${globalSize}px] text-[${colorValue}]" \n    xmlns="http://www.w3.org/2000/svg" \n    viewBox="0 0 24 24"\n    fill="none"\n    stroke="currentColor"\n    stroke-width="${strokeWidth}"\n    stroke-linecap="round"\n    stroke-linejoin="round"\n  >\n    ${pathsMarkup}\n  </svg>\n</div>`;
 
     // CSS data-uri variable
     const encodedSvg = encodeURIComponent(cleanSvgCode.replace(/"/g, "'").replace(/\n/g, "").replace(/\s+/g, " "));
@@ -405,18 +394,27 @@ import { Search, Shield } from 'danesh-icons';
  * DaneshIcons: ${targetIcon.name} (${targetIcon.category})
  * Standalone modular React component file.
  */
-export const ${targetIcon.name} = ({ size = ${globalSize}, className = "" }) => {
+export const ${targetIcon.name} = React.forwardRef(({ size = ${globalSize}, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} \n      viewBox="0 0 24 24"
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
+      {...rest}
     >
 ${reactPathsMarkup}
+      {children}
     </svg>
   );
-};
+});
 
 export default ${targetIcon.name};`;
       }
@@ -676,6 +674,13 @@ export default ${targetIcon.name};`;
           >
             <Layers size={13} />
             <span>Developer Package Explorer</span>
+          </button>
+          <button
+            onClick={() => setActivePlatformMode('integration-guide')}
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activePlatformMode === 'integration-guide' ? 'bg-gradient-to-r from-purple-600/20 to-indigo-600/20 text-purple-300 border border-purple-500/20' : 'text-slate-400 hover:text-white'}`}
+          >
+            <BookOpenText size={13} />
+            <span>Integration Guide</span>
           </button>
         </div>
 
@@ -1231,7 +1236,7 @@ export default ${targetIcon.name};`;
               )}
 
             </div>
-          ) : (
+          ) : activePlatformMode === 'design-system' ? (
             /* PLATFORM MODE B: DEVELOPER PORTAL PACKAGE FILES */
             <div className="flex-1 flex flex-col min-h-0 space-y-6">
 
@@ -1416,6 +1421,235 @@ export default ${targetIcon.name};`;
 
               </div>
 
+            </div>
+          ) : (
+            /* PLATFORM MODE C: INTEGRATION GUIDE */
+            <div className="flex-1 flex flex-col min-h-0 overflow-y-auto p-6">
+              <div className="max-w-4xl mx-auto w-full space-y-8">
+
+                {/* Header */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-6 rounded-2xl">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+                      <BookOpenText size={20} className="text-white" />
+                    </div>
+                    <div>
+                      <h1 className="text-lg font-black text-white">Integration Guide</h1>
+                      <p className="text-xs text-slate-400">Use DaneshIcons in your project as a library</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Installation */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl space-y-3">
+                  <h2 className="text-sm font-black text-slate-200 flex items-center gap-2">
+                    <span className="w-1.5 h-5 rounded bg-purple-500 inline-block" />
+                    Installation
+                  </h2>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Install <code className="text-purple-300 bg-purple-500/10 px-1.5 py-0.5 rounded text-[10px]">daneshicons</code> via your preferred package manager:
+                  </p>
+                  <div className="bg-slate-950 rounded-xl border border-white/[0.05] p-3 font-mono text-xs text-cyan-200">
+                    <pre>npm install daneshicons</pre>
+                  </div>
+                  <p className="text-xs text-slate-500">or</p>
+                  <div className="bg-slate-950 rounded-xl border border-white/[0.05] p-3 font-mono text-xs text-cyan-200">
+                    <pre>yarn add daneshicons</pre>
+                  </div>
+                  <div className="bg-indigo-500/5 border border-indigo-500/20 p-3 rounded-xl text-xs text-indigo-300">
+                    <strong>Peer Dependency:</strong> Requires <code className="text-purple-300">react &gt;= 16.8.0</code> (for the ESM bundle).
+                  </div>
+                </div>
+
+                {/* Basic Usage */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl space-y-3">
+                  <h2 className="text-sm font-black text-slate-200 flex items-center gap-2">
+                    <span className="w-1.5 h-5 rounded bg-emerald-500 inline-block" />
+                    Basic Usage (React)
+                  </h2>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Import icons as named React components:
+                  </p>
+                  <div className="bg-slate-950 rounded-xl border border-white/[0.05] p-3 font-mono text-[10px] text-purple-200 leading-relaxed">
+                    <pre>{`import { Baby, Shield, Search } from "daneshicons";
+
+export default function App() {
+  return (
+    <div className="flex items-center gap-3">
+      <Baby size={32} color="#a855f7" strokeWidth={2} />
+      <Shield size={32} color="#10b981" strokeWidth={2} />
+      <Search size={32} color="#6366f1" strokeWidth={2} />
+    </div>
+  );
+}`}</pre>
+                  </div>
+                </div>
+
+                {/* Props */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl space-y-3">
+                  <h2 className="text-sm font-black text-slate-200 flex items-center gap-2">
+                    <span className="w-1.5 h-5 rounded bg-amber-500 inline-block" />
+                    Component Props
+                  </h2>
+                  <div className="bg-slate-950 rounded-xl border border-white/[0.05] overflow-hidden text-xs">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="border-b border-white/5 text-slate-400 text-[10px] uppercase tracking-wider">
+                          <th className="p-3 font-bold">Prop</th>
+                          <th className="p-3 font-bold">Type</th>
+                          <th className="p-3 font-bold">Default</th>
+                          <th className="p-3 font-bold">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-slate-300 text-[11px]">
+                        <tr className="border-b border-white/5">
+                          <td className="p-3 font-mono text-purple-300">size</td>
+                          <td className="p-3 text-slate-500">number | string</td>
+                          <td className="p-3 text-slate-500">24</td>
+                          <td className="p-3 text-slate-400">Width & height in px</td>
+                        </tr>
+                        <tr className="border-b border-white/5">
+                          <td className="p-3 font-mono text-purple-300">color</td>
+                          <td className="p-3 text-slate-500">string</td>
+                          <td className="p-3 text-slate-500">currentColor</td>
+                          <td className="p-3 text-slate-400">Any valid CSS color</td>
+                        </tr>
+                        <tr className="border-b border-white/5">
+                          <td className="p-3 font-mono text-purple-300">strokeWidth</td>
+                          <td className="p-3 text-slate-500">number</td>
+                          <td className="p-3 text-slate-500">2</td>
+                          <td className="p-3 text-slate-400">Stroke width in px (outline only)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-mono text-purple-300">className</td>
+                          <td className="p-3 text-slate-500">string</td>
+                          <td className="p-3 text-slate-500">""</td>
+                          <td className="p-3 text-slate-400">Additional CSS classes</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Tree Shaking */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl space-y-3">
+                  <h2 className="text-sm font-black text-slate-200 flex items-center gap-2">
+                    <span className="w-1.5 h-5 rounded bg-emerald-500 inline-block" />
+                    Tree-Shaking (Optimized Imports)
+                  </h2>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    DaneshIcons is fully tree-shakable. Your bundler will only include the icons you actually import:
+                  </p>
+                  <div className="bg-slate-950 rounded-xl border border-white/[0.05] p-3 font-mono text-[10px] text-purple-200 leading-relaxed">
+                    <pre>{`// Only Search and Shield will end up in your production bundle
+import { Search, Shield } from "daneshicons";`}</pre>
+                  </div>
+                  <div className="bg-emerald-500/5 border border-emerald-500/20 p-3 rounded-xl text-xs text-emerald-300 flex items-start gap-2">
+                    <Sparkles size={14} className="mt-0.5 shrink-0" />
+                    <span>
+                      The <code className="text-purple-300">package.json</code> sets <code className="text-purple-300">"sideEffects": false</code>, enabling bundlers like Webpack, Vite, and Rollup to eliminate unused modules.
+                    </span>
+                  </div>
+                </div>
+
+                {/* Direct File Import */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl space-y-3">
+                  <h2 className="text-sm font-black text-slate-200 flex items-center gap-2">
+                    <span className="w-1.5 h-5 rounded bg-cyan-500 inline-block" />
+                    Direct Subfolder Import
+                  </h2>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Import individual icon files directly for zero overhead:
+                  </p>
+                  <div className="bg-slate-950 rounded-xl border border-white/[0.05] p-3 font-mono text-[10px] text-purple-200 leading-relaxed">
+                    <pre>{`// Import directly from source — no bundler tree-shaking needed
+import Baby from "daneshicons/src/icons/B/Baby.jsx";
+import Shield from "daneshicons/src/icons/S/Shield.jsx";`}</pre>
+                  </div>
+                </div>
+
+                {/* Other frameworks */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl space-y-3">
+                  <h2 className="text-sm font-black text-slate-200 flex items-center gap-2">
+                    <span className="w-1.5 h-5 rounded bg-pink-500 inline-block" />
+                    Usage in Other Frameworks
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
+                        <span className="text-emerald-400">Vue</span>
+                      </h3>
+                      <div className="bg-slate-950 rounded-xl border border-white/[0.05] p-3 font-mono text-[10px] text-purple-200 leading-relaxed">
+                        <pre>{`<!-- Vue 3 Single File Component -->
+<template>
+  <Baby
+    :size="32"
+    :stroke-width="2"
+    color="#a855f7"
+  />
+</template>
+
+<script setup>
+import Baby from "daneshicons/src/icons/B/Baby.jsx";
+</script>`}</pre>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
+                        <span className="text-cyan-400">Tailwind CSS</span>
+                      </h3>
+                      <div className="bg-slate-950 rounded-xl border border-white/[0.05] p-3 font-mono text-[10px] text-purple-200 leading-relaxed">
+                        <pre>{`<svg class="w-6 h-6 text-purple-500" ...>
+  <!-- SVG paths from the icon -->
+</svg>`}</pre>
+                      </div>
+                      <p className="text-[10px] text-slate-500 mt-1">
+                        Copy the raw SVG from the Studio Workspace compiler panel and use the <code className="text-purple-300">text-*</code> utility for coloring.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tips */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl space-y-3">
+                  <h2 className="text-sm font-black text-slate-200 flex items-center gap-2">
+                    <span className="w-1.5 h-5 rounded bg-rose-500 inline-block" />
+                    Pro Tips
+                  </h2>
+                  <ul className="space-y-2 text-xs text-slate-400">
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-0.5">&#x2022;</span>
+                      <span>Use the <strong>Studio Workspace</strong> to browse all available icons and customize them visually.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-0.5">&#x2022;</span>
+                      <span>Switch to the <strong>Developer Package Explorer</strong> to inspect each icon's source file.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-0.5">&#x2022;</span>
+                      <span>Use the right-side <strong>Asset Compiler</strong> to export icons as React, Vue, SVG, Tailwind, or CSS.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-0.5">&#x2022;</span>
+                      <span>Upload custom SVGs via the <strong>Upload SVG</strong> button to extend the library.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-400 mt-0.5">&#x2022;</span>
+                      <span>All icons use a <code className="text-purple-300">24x24</code> viewBox with <code className="text-purple-300">stroke-linecap="round"</code> and <code className="text-purple-300">stroke-linejoin="round"</code> for consistent rendering.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* License */}
+                <div className="bg-[#090a10] border border-white/[0.03] p-5 rounded-2xl text-center">
+                  <p className="text-xs text-slate-500">
+                    DaneshIcons is MIT licensed. Free to use in personal and commercial projects.
+                  </p>
+                </div>
+
+              </div>
             </div>
           )}
 

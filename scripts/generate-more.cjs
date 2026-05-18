@@ -88,26 +88,33 @@ for (const name of iconNames) {
       paths: paths
     };
     
-    const formattedPaths = paths.map(p => `      <path d="${p}" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" fill="none" />`).join('\n');
+    const formattedPaths = paths.map(p => `      <path d="${p}" />`).join('\n');
     
     const fileContent = `import React from 'react';
 
 export const iconData = ${JSON.stringify(iconObj, null, 2)};
 
-export const ${name} = ({ size = 24, className = "", color = "currentColor" }) => {
+export const ${name} = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
 ${formattedPaths}
+      {children}
     </svg>
   );
-};
+});
 
 export default ${name};
 `;

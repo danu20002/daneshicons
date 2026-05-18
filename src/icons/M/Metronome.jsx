@@ -7,22 +7,29 @@ export const iconData = {
   nodes: [["path",{"d":"M12 11.4V9.1"}],["path",{"d":"m12 17 6.59-6.59"}],["path",{"d":"m15.05 5.7-.218-.691a3 3 0 0 0-5.663 0L4.418 19.695A1 1 0 0 0 5.37 21h13.253a1 1 0 0 0 .951-1.31L18.45 16.2"}],["circle",{"cx":"20","cy":"9","r":"2"}]]
 };
 
-export const Metronome = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const Metronome = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="M12 11.4V9.1" />
       <path d="m12 17 6.59-6.59" />
       <path d="m15.05 5.7-.218-.691a3 3 0 0 0-5.663 0L4.418 19.695A1 1 0 0 0 5.37 21h13.253a1 1 0 0 0 .951-1.31L18.45 16.2" />
       <circle cx="20" cy="9" r="2" />
+      {children}
     </svg>
   );
-};
+});
 
 export default Metronome;

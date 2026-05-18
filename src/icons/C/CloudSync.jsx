@@ -7,23 +7,30 @@ export const iconData = {
   nodes: [["path",{"d":"m17 18-1.535 1.605a5 5 0 0 1-8-1.5"}],["path",{"d":"M17 22v-4h-4"}],["path",{"d":"M20.996 15.251A4.5 4.5 0 0 0 17.495 8h-1.79a7 7 0 1 0-12.709 5.607"}],["path",{"d":"M7 10v4h4"}],["path",{"d":"m7 14 1.535-1.605a5 5 0 0 1 8 1.5"}]]
 };
 
-export const CloudSync = ({ size = 24, className = "", color = "currentColor", renderStyle = "outline", strokeWidth = 2 }) => {
+export const CloudSync = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
-      color={color}
+      {...rest}
     >
       <path d="m17 18-1.535 1.605a5 5 0 0 1-8-1.5" />
       <path d="M17 22v-4h-4" />
       <path d="M20.996 15.251A4.5 4.5 0 0 0 17.495 8h-1.79a7 7 0 1 0-12.709 5.607" />
       <path d="M7 10v4h4" />
       <path d="m7 14 1.535-1.605a5 5 0 0 1 8 1.5" />
+      {children}
     </svg>
   );
-};
+});
 
 export default CloudSync;
