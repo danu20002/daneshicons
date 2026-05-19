@@ -1,0 +1,53 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "TropicoSturdy",
+  "name": "TropicoSturdy",
+  "category": "AK",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 3.57 6.31 L 20.43 6.31 L 20.43 17.69 L 3.57 17.69 Z"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 3.57 6.31 L 8.00 1.88 L 24.85 1.88 L 20.43 6.31"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 20.43 6.31 L 24.85 1.88 L 24.85 13.27 L 20.43 17.69"
+      }
+    ]
+  ]
+};
+
+export const TropicoSturdy = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 3.57 6.31 L 20.43 6.31 L 20.43 17.69 L 3.57 17.69 Z" />
+      <path d="M 3.57 6.31 L 8.00 1.88 L 24.85 1.88 L 20.43 6.31" />
+      <path d="M 20.43 6.31 L 24.85 1.88 L 24.85 13.27 L 20.43 17.69" />
+      {children}
+    </svg>
+  );
+});
+
+export default TropicoSturdy;

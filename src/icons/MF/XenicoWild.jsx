@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "XenicoWild",
+  "name": "XenicoWild",
+  "category": "MF",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 20.34 15.04 L 13.54 20.74 L 5.20 17.71 L 3.66 8.96 L 10.46 3.26 L 18.80 6.29 Z"
+      }
+    ]
+  ]
+};
+
+export const XenicoWild = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 20.34 15.04 L 13.54 20.74 L 5.20 17.71 L 3.66 8.96 L 10.46 3.26 L 18.80 6.29 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default XenicoWild;

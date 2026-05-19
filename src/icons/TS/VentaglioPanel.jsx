@@ -1,0 +1,55 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "VentaglioPanel",
+  "name": "VentaglioPanel",
+  "category": "TS",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 9.67 12.00 a 2.33 2.33 0 1 0 4.66 0 a 2.33 2.33 0 1 0 -4.66 0"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 7.22 12.00 a 4.78 4.78 0 1 0 9.57 0 a 4.78 4.78 0 1 0 -9.57 0",
+        "stroke-dasharray": "2 1"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 4.20 12.00 a 7.80 7.80 0 1 0 15.60 0 a 7.80 7.80 0 1 0 -15.60 0",
+        "stroke-dasharray": "5 2"
+      }
+    ]
+  ]
+};
+
+export const VentaglioPanel = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 9.67 12.00 a 2.33 2.33 0 1 0 4.66 0 a 2.33 2.33 0 1 0 -4.66 0" />
+      <path d="M 7.22 12.00 a 4.78 4.78 0 1 0 9.57 0 a 4.78 4.78 0 1 0 -9.57 0" stroke-dasharray="2 1" />
+      <path d="M 4.20 12.00 a 7.80 7.80 0 1 0 15.60 0 a 7.80 7.80 0 1 0 -15.60 0" stroke-dasharray="5 2" />
+      {children}
+    </svg>
+  );
+});
+
+export default VentaglioPanel;

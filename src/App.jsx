@@ -124,7 +124,16 @@ export default function App() {
   const [icons, setIcons] = useState(LOADED_ICONS);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
-  const [visibleCount, setVisibleCount] = useState(200);
+  const [visibleCount, setVisibleCount] = useState(500);
+  const LOAD_MORE_STEP = 300;
+  const [copiedIcon, setCopiedIcon] = useState(null);
+
+  const copyImport = (iconName) => {
+    const text = `import { ${iconName} } from 'daneshicons'`;
+    navigator.clipboard.writeText(text);
+    setCopiedIcon(iconName);
+    setTimeout(() => setCopiedIcon(null), 1500);
+  };
 
   // Customization States
   const [globalSize, setGlobalSize] = useState(24);
@@ -254,21 +263,31 @@ export default function App() {
       const matchesSearch = icon.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         icon.category.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesCategory = activeCategory === 'All' ||
-        (activeCategory === 'Custom' && icon.type === 'custom') ||
-        (icon.category === activeCategory && activeCategory !== 'Custom');
+      const isCustom = icon.type === 'custom';
+      let matchesCategory;
+      if (activeCategory === 'All') {
+        matchesCategory = true;
+      } else if (activeCategory === 'Custom') {
+        matchesCategory = isCustom;
+      } else if (activeCategory.length === 1) {
+        matchesCategory = !isCustom && icon.category.startsWith(activeCategory);
+      } else {
+        matchesCategory = !isCustom && icon.category === activeCategory;
+      }
 
       return matchesSearch && matchesCategory;
     });
   }, [icons, searchQuery, activeCategory]);
 
   useEffect(() => {
-    setVisibleCount(200);
+    setVisibleCount(500);
   }, [searchQuery, activeCategory]);
 
   const visibleIcons = useMemo(() => {
     return filteredIcons.slice(0, visibleCount);
   }, [filteredIcons, visibleCount]);
+
+  const hasMore = visibleCount < filteredIcons.length;
 
   const stats = useMemo(() => {
     const standard = icons.filter(i => i.type === 'standard').length;
@@ -376,7 +395,8 @@ import { Search, Shield } from 'danesh-icons';
       const targetIcon = icons.find(i => i.name === name && i.category === category);
       if (targetIcon) {
         const colorValue = selectedColor.hex;
-        const reactPathsMarkup = targetIcon.nodes.map(([tag, attrs]) => {
+        const nodesList = targetIcon.nodes || [];
+        const reactPathsMarkup = nodesList.map(([tag, attrs]) => {
           const props = Object.entries(attrs).map(([k, v]) => {
             const reactKey = k.replace(/-([a-z])/g, g => g[1].toUpperCase());
             return `${reactKey}="${v}"`;
@@ -614,7 +634,7 @@ export default ${targetIcon.name};`;
     CATEGORIES.filter(c => c !== 'All').forEach(cat => {
       map[cat] = icons.filter(i => {
         if (cat === 'Custom') return i.type === 'custom';
-        return i.category === cat && i.type !== 'custom';
+        return i.category.startsWith(cat) && i.type !== 'custom';
       });
     });
     return map;
@@ -782,7 +802,7 @@ export default ${targetIcon.name};`;
                     {CATEGORIES.map(cat => {
                       const count = cat === 'All' ? icons.length :
                         cat === 'Custom' ? icons.filter(i => i.type === 'custom').length :
-                          icons.filter(i => i.category === cat).length;
+                          icons.filter(i => !i.type || i.type !== 'custom').filter(i => i.category.startsWith(cat)).length;
                       const isActive = activeCategory === cat;
 
                       return (
@@ -1194,6 +1214,14 @@ export default ${targetIcon.name};`;
                             : 'border-white/[0.03] hover:border-white/10 hover:bg-[#0c0d16]'
                             } ${gridDensity === 'ultra' ? 'p-2 min-h-[85px]' : gridDensity === 'comfortable' ? 'p-5 min-h-[130px]' : 'p-3.5 min-h-[105px]'}`}
                         >
+                          <button
+                            onClick={(e) => { e.stopPropagation(); copyImport(icon.name); }}
+                            className="absolute top-1.5 left-1.5 p-1 rounded-md opacity-0 group-hover:opacity-100 hover:bg-emerald-500/20 hover:text-emerald-400 text-slate-500 transition-all"
+                            title="Copy import"
+                          >
+                            {copiedIcon === icon.name ? <Check size={11} /> : <Copy size={11} />}
+                          </button>
+
                           {icon.type === 'custom' && (
                             <button
                               onClick={(e) => handleDeleteIcon(icon.id, icon.name, e)}
@@ -1232,6 +1260,16 @@ export default ${targetIcon.name};`;
                       );
                     })}
                   </div>
+                  {hasMore && (
+                    <div className="flex justify-center mt-6 mb-4">
+                      <button
+                        onClick={() => setVisibleCount(prev => prev + LOAD_MORE_STEP)}
+                        className="px-6 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-white/10 hover:border-purple-500/30 text-xs font-bold text-slate-300 hover:text-white transition-all flex items-center gap-2"
+                      >
+                        Load More ({filteredIcons.length - visibleCount} remaining)
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 

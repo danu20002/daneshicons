@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "QuerciHump",
+  "name": "QuerciHump",
+  "category": "HD",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 2.72 8.81 L 8.70 2.76 L 17.17 3.66 L 21.75 10.84 L 18.98 18.90 L 10.96 21.76 L 3.72 17.27 Z"
+      }
+    ]
+  ]
+};
+
+export const QuerciHump = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 2.72 8.81 L 8.70 2.76 L 17.17 3.66 L 21.75 10.84 L 18.98 18.90 L 10.96 21.76 L 3.72 17.27 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default QuerciHump;

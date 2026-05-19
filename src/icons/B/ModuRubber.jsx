@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "ModuRubber",
+  "name": "ModuRubber",
+  "category": "B",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 3.15 11.04 L 8.41 3.86 L 17.26 4.82 L 20.85 12.96 L 15.59 20.14 L 6.74 19.18 Z"
+      }
+    ]
+  ]
+};
+
+export const ModuRubber = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 3.15 11.04 L 8.41 3.86 L 17.26 4.82 L 20.85 12.96 L 15.59 20.14 L 6.74 19.18 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default ModuRubber;

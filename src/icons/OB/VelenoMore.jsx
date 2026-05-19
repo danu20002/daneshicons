@@ -1,0 +1,67 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "VelenoMore",
+  "name": "VelenoMore",
+  "category": "OB",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 6.74 6.06 L 10.74 6.06"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 16.02 5.16 L 17.26 8.96"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 19.75 13.71 L 16.51 16.06"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 12.77 19.90 L 9.53 17.55"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 4.73 15.17 L 5.96 11.37"
+      }
+    ]
+  ]
+};
+
+export const VelenoMore = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 6.74 6.06 L 10.74 6.06" />
+      <path d="M 16.02 5.16 L 17.26 8.96" />
+      <path d="M 19.75 13.71 L 16.51 16.06" />
+      <path d="M 12.77 19.90 L 9.53 17.55" />
+      <path d="M 4.73 15.17 L 5.96 11.37" />
+      {children}
+    </svg>
+  );
+});
+
+export default VelenoMore;

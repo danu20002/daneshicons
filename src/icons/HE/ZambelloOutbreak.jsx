@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "ZambelloOutbreak",
+  "name": "ZambelloOutbreak",
+  "category": "HE",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 4.38 4.74 L 11.86 6.29 L 19.26 4.38 L 17.71 11.86 L 19.62 19.26 L 12.14 17.71 L 4.74 19.62 L 6.29 12.14 Z"
+      }
+    ]
+  ]
+};
+
+export const ZambelloOutbreak = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 4.38 4.74 L 11.86 6.29 L 19.26 4.38 L 17.71 11.86 L 19.62 19.26 L 12.14 17.71 L 4.74 19.62 L 6.29 12.14 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default ZambelloOutbreak;

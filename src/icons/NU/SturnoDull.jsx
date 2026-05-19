@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "SturnoDull",
+  "name": "SturnoDull",
+  "category": "NU",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 6.10 4.78 L 11.46 8.68 L 15.30 3.28 L 14.60 9.87 L 21.20 10.50 L 15.14 13.19 L 17.90 19.22 L 12.54 15.32 L 8.70 20.72 L 9.40 14.13 L 2.80 13.50 L 8.86 10.81 Z"
+      }
+    ]
+  ]
+};
+
+export const SturnoDull = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 6.10 4.78 L 11.46 8.68 L 15.30 3.28 L 14.60 9.87 L 21.20 10.50 L 15.14 13.19 L 17.90 19.22 L 12.54 15.32 L 8.70 20.72 L 9.40 14.13 L 2.80 13.50 L 8.86 10.81 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default SturnoDull;

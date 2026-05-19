@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "QuiloHair",
+  "name": "QuiloHair",
+  "category": "BH",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 19.63 16.62 L 9.97 20.69 L 3.11 12.75 L 8.54 3.78 L 18.75 6.17 Z"
+      }
+    ]
+  ]
+};
+
+export const QuiloHair = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 19.63 16.62 L 9.97 20.69 L 3.11 12.75 L 8.54 3.78 L 18.75 6.17 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default QuiloHair;

@@ -1,0 +1,68 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "TabulaNow",
+  "name": "TabulaNow",
+  "category": "BL",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 9.71 12.00 a 2.29 2.29 0 1 0 4.58 0 a 2.29 2.29 0 1 0 -4.58 0"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 8.05 12.00 a 3.95 3.95 0 1 0 7.91 0 a 3.95 3.95 0 1 0 -7.91 0",
+        "stroke-dasharray": "4 2"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 6.43 12.00 a 5.57 5.57 0 1 0 11.14 0 a 5.57 5.57 0 1 0 -11.14 0"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 4.99 12.00 a 7.01 7.01 0 1 0 14.02 0 a 7.01 7.01 0 1 0 -14.02 0"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 3.60 12.00 a 8.40 8.40 0 1 0 16.81 0 a 8.40 8.40 0 1 0 -16.81 0"
+      }
+    ]
+  ]
+};
+
+export const TabulaNow = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 9.71 12.00 a 2.29 2.29 0 1 0 4.58 0 a 2.29 2.29 0 1 0 -4.58 0" />
+      <path d="M 8.05 12.00 a 3.95 3.95 0 1 0 7.91 0 a 3.95 3.95 0 1 0 -7.91 0" stroke-dasharray="4 2" />
+      <path d="M 6.43 12.00 a 5.57 5.57 0 1 0 11.14 0 a 5.57 5.57 0 1 0 -11.14 0" />
+      <path d="M 4.99 12.00 a 7.01 7.01 0 1 0 14.02 0 a 7.01 7.01 0 1 0 -14.02 0" />
+      <path d="M 3.60 12.00 a 8.40 8.40 0 1 0 16.81 0 a 8.40 8.40 0 1 0 -16.81 0" />
+      {children}
+    </svg>
+  );
+});
+
+export default TabulaNow;

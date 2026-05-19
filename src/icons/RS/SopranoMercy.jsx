@@ -1,0 +1,60 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "SopranoMercy",
+  "name": "SopranoMercy",
+  "category": "RS",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 6.96 8.21 L 10.96 8.21"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 15.79 6.96 L 15.79 10.96"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 17.04 15.79 L 13.04 15.79"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 8.21 17.04 L 8.21 13.04"
+      }
+    ]
+  ]
+};
+
+export const SopranoMercy = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 6.96 8.21 L 10.96 8.21" />
+      <path d="M 15.79 6.96 L 15.79 10.96" />
+      <path d="M 17.04 15.79 L 13.04 15.79" />
+      <path d="M 8.21 17.04 L 8.21 13.04" />
+      {children}
+    </svg>
+  );
+});
+
+export default SopranoMercy;

@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "UncinoSurplus",
+  "name": "UncinoSurplus",
+  "category": "U",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 3.25 10.30 L 7.88 4.10 L 15.61 3.85 L 20.62 9.74 L 19.14 17.33 L 12.29 20.91 L 5.22 17.78 Z"
+      }
+    ]
+  ]
+};
+
+export const UncinoSurplus = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 3.25 10.30 L 7.88 4.10 L 15.61 3.85 L 20.62 9.74 L 19.14 17.33 L 12.29 20.91 L 5.22 17.78 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default UncinoSurplus;

@@ -1,0 +1,53 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "SunnoColony",
+  "name": "SunnoColony",
+  "category": "TK",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 4.87 6.83 L 19.13 6.83 L 19.13 17.17 L 4.87 17.17 Z"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 4.87 6.83 L 9.09 2.61 L 23.34 2.61 L 19.13 6.83"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 19.13 6.83 L 23.34 2.61 L 23.34 12.96 L 19.13 17.17"
+      }
+    ]
+  ]
+};
+
+export const SunnoColony = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 4.87 6.83 L 19.13 6.83 L 19.13 17.17 L 4.87 17.17 Z" />
+      <path d="M 4.87 6.83 L 9.09 2.61 L 23.34 2.61 L 19.13 6.83" />
+      <path d="M 19.13 6.83 L 23.34 2.61 L 23.34 12.96 L 19.13 17.17" />
+      {children}
+    </svg>
+  );
+});
+
+export default SunnoColony;

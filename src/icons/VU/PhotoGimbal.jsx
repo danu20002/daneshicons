@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "PhotoGimbal",
+  "name": "PhotoGimbal",
+  "category": "VU",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 7.97 3.40 L 12.84 7.63 L 18.94 5.51 L 16.41 11.45 L 20.31 16.59 L 13.88 16.03 L 10.20 21.33 L 8.75 15.04 L 2.57 13.17 L 8.11 9.85 Z"
+      }
+    ]
+  ]
+};
+
+export const PhotoGimbal = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 7.97 3.40 L 12.84 7.63 L 18.94 5.51 L 16.41 11.45 L 20.31 16.59 L 13.88 16.03 L 10.20 21.33 L 8.75 15.04 L 2.57 13.17 L 8.11 9.85 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default PhotoGimbal;

@@ -1,0 +1,66 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "CineTry",
+  "name": "CineTry",
+  "category": "MR",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 10.17 20.80 L 16.91 4.50"
+      }
+    ],
+    [
+      "circle",
+      {
+        "cx": "10.17",
+        "cy": "20.80",
+        "r": "1.5"
+      }
+    ],
+    [
+      "circle",
+      {
+        "cx": "13.80",
+        "cy": "15.54",
+        "r": "1.5"
+      }
+    ],
+    [
+      "circle",
+      {
+        "cx": "16.91",
+        "cy": "4.50",
+        "r": "1.5"
+      }
+    ]
+  ]
+};
+
+export const CineTry = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 10.17 20.80 L 16.91 4.50" />
+      <circle cx="10.17" cy="20.80" r="1.5" />
+      <circle cx="13.80" cy="15.54" r="1.5" />
+      <circle cx="16.91" cy="4.50" r="1.5" />
+      {children}
+    </svg>
+  );
+});
+
+export default CineTry;

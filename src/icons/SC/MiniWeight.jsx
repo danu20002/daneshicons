@@ -1,0 +1,39 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "MiniWeight",
+  "name": "MiniWeight",
+  "category": "SC",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 2.62 15.01 L 3.80 6.54 L 11.15 2.19 L 19.15 5.22 L 21.76 13.36 L 17.02 20.48 L 8.50 21.21 Z"
+      }
+    ]
+  ]
+};
+
+export const MiniWeight = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 2.62 15.01 L 3.80 6.54 L 11.15 2.19 L 19.15 5.22 L 21.76 13.36 L 17.02 20.48 L 8.50 21.21 Z" />
+      {children}
+    </svg>
+  );
+});
+
+export default MiniWeight;

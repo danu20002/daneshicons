@@ -1,0 +1,53 @@
+import React from 'react';
+
+export const iconData = {
+  "id": "VistaPretend",
+  "name": "VistaPretend",
+  "category": "GZ",
+  "nodes": [
+    [
+      "path",
+      {
+        "d": "M 3.85 6.29 L 20.15 6.29 L 20.15 17.71 L 3.85 17.71 Z"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 3.85 6.29 L 7.17 2.96 L 23.48 2.96 L 20.15 6.29"
+      }
+    ],
+    [
+      "path",
+      {
+        "d": "M 20.15 6.29 L 23.48 2.96 L 23.48 14.39 L 20.15 17.71"
+      }
+    ]
+  ]
+};
+
+export const VistaPretend = React.forwardRef(({ size = 24, className = "", color = "currentColor", strokeWidth = 2, children, ...rest }, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M 3.85 6.29 L 20.15 6.29 L 20.15 17.71 L 3.85 17.71 Z" />
+      <path d="M 3.85 6.29 L 7.17 2.96 L 23.48 2.96 L 20.15 6.29" />
+      <path d="M 20.15 6.29 L 23.48 2.96 L 23.48 14.39 L 20.15 17.71" />
+      {children}
+    </svg>
+  );
+});
+
+export default VistaPretend;
